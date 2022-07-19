@@ -6,8 +6,14 @@ class TeamsService implements ITeamsService {
     this.model = model;
   }
 
-  public async listTeams(): Promise<TeamsModel> {
+  public async listTeams(): Promise<TeamsModel[]> {
     const teamsData = await this.model.listTeams();
+
+    return teamsData as TeamsModel[];
+  }
+
+  public async listOneTeam(id: number): Promise<TeamsModel> {
+    const teamsData = await this.model.listOneTeam(id);
 
     return teamsData as TeamsModel;
   }
