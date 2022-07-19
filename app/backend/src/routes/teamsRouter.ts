@@ -13,6 +13,10 @@ const teamsFactory = () => {
     return controller;
   };
 
+  teamsRouter.get('/:id', (req, res, next) =>{
+    teamsFactory().ListOneTeam(req, res, next);
+  });
+
   teamsRouter.get('/', (req, res, next) =>{
     teamsFactory().ListTeams(req, res, next);
   });
