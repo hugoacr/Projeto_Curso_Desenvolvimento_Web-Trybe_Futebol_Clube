@@ -2,6 +2,7 @@ import newToken from '../helpers/newToken';
 import HandleError from '../helpers/handleError';
 import UsersModel from '../database/models/userModel';
 import { IUserRepository, IUserService } from '../interfaces/userInterface';
+import { compareSync } from 'bcryptjs';
 
 class UserService implements IUserService {
   constructor(private model: IUserRepository) {
@@ -9,17 +10,19 @@ class UserService implements IUserService {
   }
 
   public async userLogin(email: string, password: string): Promise<UsersModel> {
-    const userData = await this.model.userLogin(email, password);
-    // const verifyPassword = await compareSync(password, userData.password);
+    const userData = await this.model.userLogin(email);
 
-    console.log(userData);
+    if (!userData) {
+      throw new HandleError(401, 'Incorrect email or password');
+    }
 
-    if (!userData.email || !userData.password) {
-      throw new HandleError(400, 'All fields must be filled');
+    const verifyPassword = compareSync(password, userData.password);
+
+    if (!verifyPassword) {
+      throw new HandleError(401, 'Incorrect email or password');
     }
 
     return newToken(userData) as unknown as UsersModel;
-
   }
 }
 
