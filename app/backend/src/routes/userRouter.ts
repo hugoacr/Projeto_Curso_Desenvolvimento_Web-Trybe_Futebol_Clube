@@ -18,4 +18,8 @@ const userFactory = () => {
     userFactory().UserLogin(req, res, next);
   });
 
+  userRouter.get('/validate', (req, res, next) =>{
+    userFactory().ValidateToken(req, res, next);
+  });
+
 export default userRouter;
