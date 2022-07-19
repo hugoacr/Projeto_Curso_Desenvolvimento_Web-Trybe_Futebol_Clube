@@ -6,9 +6,11 @@ export interface ITeams {
 }
 
 export interface ITeamsRepository {
-  listTeams(): Promise<TeamsModel>
+  listTeams(): Promise<TeamsModel[]>,
+  listOneTeam(id: number): Promise<TeamsModel>
 }
 
 export interface ITeamsService {
-  listTeams(): Promise<TeamsModel>
+  listTeams(): Promise<TeamsModel[]>
+  listOneTeam(id: number): Promise<TeamsModel>
 }
