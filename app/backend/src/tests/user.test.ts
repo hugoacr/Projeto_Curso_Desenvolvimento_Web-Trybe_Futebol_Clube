@@ -101,4 +101,27 @@ describe('Crie um endpoint para o login', () => {
       
     });
   });
+
+  describe('Será validado que o token é valido', () => {
+    before( async () => {
+      sinon.stub(User, 'findOne')
+        .resolves(userTest as User) 
+    });
+  
+    after(() => {
+      (User.findOne as sinon.SinonStub)
+        .restore();
+    })
+    
+    it('retorna status http 200 com um role admin', async () => {
+
+      const response = await chai.request(app).post("/login/validate").set({
+        authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTY1NzMwNTgwNH0.Y2zCKgBE3PvKUdRNjbIKBpoxREcsYgWcJ_hiXez_8P8'
+      });
+
+      expect(response).to.have.status(200);
+      expect(response.body).to.have.equals({ role: 'admin' });
+    });
+  });
+
 });
