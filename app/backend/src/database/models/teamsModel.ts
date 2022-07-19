@@ -13,7 +13,7 @@ teams.init({
     primaryKey: true,
     autoIncrement: true,
   },
-  team_name: STRING,
+  teamName: STRING,
 }, {
   sequelize: db,
   modelName: 'teams',
