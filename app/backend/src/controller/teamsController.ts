@@ -16,6 +16,17 @@ class TeamsController {
     next(error);
     }
   }
+
+  async ListOneTeam(req: Request, res: Response, next: NextFunction) {
+    try {
+    const { id } = req.params; 
+    const teamsData = await this.service.listOneTeam(Number(id));
+  
+    return res.status(200).send( teamsData );
+    } catch (error) {
+    next(error);
+    }
+  }
 }
   
 export default TeamsController;
