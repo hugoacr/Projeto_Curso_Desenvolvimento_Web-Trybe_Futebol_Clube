@@ -9,9 +9,9 @@ export interface IUser {
 }
 
 export interface IUserRepository {
-  userLogin(email: string, password: string): Promise<UserModel>
+  userLogin(email: string): Promise<UserModel>
 }
 
 export interface IUserService {
-  userLogin(email: string, password: string): Promise<UserModel>
+  userLogin(email: string, password: string): Promise<UserModel>;
 }
