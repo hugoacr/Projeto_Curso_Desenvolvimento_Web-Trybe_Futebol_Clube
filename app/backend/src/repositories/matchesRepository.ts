@@ -35,6 +35,13 @@ class MatchesRepository implements IMatchesRepository {
     await this.model.update({ inProgress: false }, { where: { id } });
   }
 
+  async updateGoal(id: number, 
+    data: Omit<MatchesModel, 'id' | 'inProgress' | 'homeTeam' | 'awayTeam'>): Promise<MatchesModel> {
+    await this.model.update(data, { where: { id } });
+    const updateGoalMatch = await this.model.findByPk(id);
+    return updateGoalMatch as MatchesModel
+  }
+
 }
 
 export default MatchesRepository;
