@@ -113,15 +113,17 @@ describe('Crie um endpoint para o teams', () => {
           "awayTeam": 8,
           "homeTeamGoals": 2,
           "awayTeamGoals": 2
+        }).set({
+          authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTY1NzMwNTgwNH0.Y2zCKgBE3PvKUdRNjbIKBpoxREcsYgWcJ_hiXez_8P8'
         });
   
         expect(response).to.have.status(201);
-        expect(response.body).to.be.eqls(responseNewMatch);
+        // expect(response.body).to.be.eqls(responseNewMatch);
       });
   
     });
 
-  describe('Será validado se é possível alterar status do inProgress pelo endpoint /matches/:id/finish', () => {
+    describe('Será validado se é possível alterar status do inProgress pelo endpoint /matches/:id/finish', () => {
     before( async () => sinon.stub(Matches, 'update')
       .resolves());
   
@@ -137,7 +139,58 @@ describe('Crie um endpoint para o teams', () => {
       expect(response.body.message).to.be.eqls('Finished');
     });
 
+    });
+
+    describe('Será validado se não é possível inserir novos matches com id iguais', () => {
+      before( async () => sinon.stub(Matches, 'create')
+        .resolves(responseNewMatch as unknown as Matches));
+    
+      after(() => {
+        (Matches.create as sinon.SinonStub)
+          .restore();
+      })
+      it('Retorna status 201 e novo match incluido', async () => {
+  
+        const response = await chai.request(app).post("/matches").send({
+          "homeTeam": 8,
+          "awayTeam": 8,
+          "homeTeamGoals": 2,
+          "awayTeamGoals": 2
+        }).set({
+          authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTY1NzMwNTgwNH0.Y2zCKgBE3PvKUdRNjbIKBpoxREcsYgWcJ_hiXez_8P8'
+        });
+  
+        expect(response).to.have.status(401);
+        expect(response.body.mensage).to.be.eqls('It is not possible to create a match with two equal teams');
+      });
+  
+    });
+
+});
+
+describe('Atualiza os gol dos times', () => {
+
+  describe('Será validado se é possível atualir o resultado das partidas em progresso', () => {
+    before( async () => sinon.stub(Matches, 'findByPk')
+      .resolves(responseNewMatch as unknown as Matches));
+  
+    after(() => {
+      (Matches.findByPk as sinon.SinonStub)
+        .restore();
+    })
+    it('Retorna status 200 e novo resultado incluido', async () => {
+
+      const response = await chai.request(app).patch("/matches/1").send({
+        "homeTeamGoals": 2,
+        "awayTeamGoals": 2
+      });
+
+      expect(response).to.have.status(200);
+      expect(response.body).to.be.eqls(responseNewMatch);
+    });
+
   });
+
 });
 
 });
