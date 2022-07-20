@@ -11,8 +11,10 @@ export interface IMatches {
 
 export interface IMatchesRepository {
   listMatches(): Promise<MatchesModel[]>,
+  includeMatch(data: Omit<MatchesModel, 'id' | 'inProgress'>): Promise<MatchesModel>,
 }
 
 export interface IMatchesService {
-  listMatches(): Promise<MatchesModel[]>
+  listMatches(): Promise<MatchesModel[]>,
+  includeMatch(data: Omit<MatchesModel, 'id' | 'inProgress'>): Promise<MatchesModel>,
 }
