@@ -26,4 +26,12 @@ const matchesFactory = () => {
     matchesFactory().FinishProgress(req, res, next);
   });
 
+  matchesRouter.post('/:id', (req, res, next) =>{
+    matchesFactory().IncludeMatch(req, res, next);
+  });
+
+  matchesRouter.patch('/:id', (req, res, next) =>{
+    matchesFactory().UpdateGoal(req, res, next);
+  });
+
 export default matchesRouter;
