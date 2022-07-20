@@ -19,6 +19,12 @@ class MatchesService implements IMatchesService {
   public async finishProgress(id: number): Promise<void> {
     await this.model.finishProgress(Number(id)); 
   }
+
+  public async updateGoal(id: number,
+    data: Omit<MatchesModel, 'id' | 'inProgress' | 'homeTeam' | 'awayTeam'>): Promise<MatchesModel> {
+    const updateGoalMatch = await this.model.updateGoal(id, data);
+    return updateGoalMatch  
+  }
 }
 
 export default MatchesService;
