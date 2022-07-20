@@ -2,6 +2,7 @@ import { Router } from 'express';
 import MatchesController from '../controller/matchesController';
 import MatchesRepository from '../repositories/matchesRepository';
 import MatchesService from '../services/matchesService';
+import validateToken from '../middlewares/validateToken'
 
 const matchesRouter = Router();
 
@@ -17,7 +18,7 @@ const matchesFactory = () => {
     matchesFactory().ListMatches(req, res, next);
   });
 
-  matchesRouter.post('/', (req, res, next) =>{
+  matchesRouter.post('/', validateToken, (req, res, next) =>{
     matchesFactory().IncludeMatch(req, res, next);
   });
 
