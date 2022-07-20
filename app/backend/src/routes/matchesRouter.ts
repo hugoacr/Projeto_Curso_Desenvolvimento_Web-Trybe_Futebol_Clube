@@ -17,4 +17,8 @@ const matchesFactory = () => {
     matchesFactory().ListMatches(req, res, next);
   });
 
+  matchesRouter.post('/', (req, res, next) =>{
+    matchesFactory().IncludeMatch(req, res, next);
+  });
+
 export default matchesRouter;
