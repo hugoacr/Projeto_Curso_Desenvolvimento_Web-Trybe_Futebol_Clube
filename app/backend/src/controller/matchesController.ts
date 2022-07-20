@@ -43,6 +43,19 @@ class MatchesController {
     }
   }
 
+  async UpdateGoal(req: Request, res: Response, next: NextFunction) {
+    try {
+      const goalData = req.body;
+      const { id } = req.params;
+
+      const updateGoal = await this.service.updateGoal( Number(id), goalData);
+      
+      return res.status(200).send( updateGoal );
+    } catch (error) {
+      next(error);
+    }
+  }
+
 }
   
 export default MatchesController;
