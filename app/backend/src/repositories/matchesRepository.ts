@@ -20,6 +20,10 @@ class MatchesRepository implements IMatchesRepository {
     return newMatch as MatchesModel;
   }
 
+  async finishProgress(id: number): Promise<void> {
+    await this.model.update({ inProgress: false }, { where: { id } });
+  }
+
 }
 
 export default MatchesRepository;
