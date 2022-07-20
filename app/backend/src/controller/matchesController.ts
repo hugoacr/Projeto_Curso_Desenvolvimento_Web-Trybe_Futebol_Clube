@@ -19,6 +19,12 @@ class MatchesController {
   async IncludeMatch(req: Request, res: Response, next: NextFunction) {
     try {
     const matchData = req.body;
+
+    if (matchData.homeTeam === matchData.awayTeam) {
+      return res.status(401)
+      .send( { "message": "It is not possible to create a match with two equal teams" } );
+    }
+
     const newMatch = await this.service.includeMatch(matchData);
   
     return res.status(201).send( newMatch );
