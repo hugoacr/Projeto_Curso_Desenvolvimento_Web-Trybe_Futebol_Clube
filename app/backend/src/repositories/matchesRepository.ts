@@ -13,6 +13,13 @@ class MatchesRepository implements IMatchesRepository {
     
     return matchesData as MatchesModel[];
   }
+
+  async includeMatch(data: Omit<MatchesModel, 'id' | 'inProgress'>): Promise<MatchesModel> {
+    const newMatch = await this.model.create(data);
+    
+    return newMatch as MatchesModel;
+  }
+
 }
 
 export default MatchesRepository;
