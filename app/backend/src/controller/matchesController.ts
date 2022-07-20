@@ -8,10 +8,20 @@ class MatchesController {
   
   async ListMatches(req: Request, res: Response, next: NextFunction) {
     try {
+    const matchesData = await this.service.listMatches();
   
-    const teamsData = await this.service.listMatches();
+    return res.status(200).send( matchesData );
+    } catch (error) {
+    next(error);
+    }
+  }
+
+  async IncludeMatch(req: Request, res: Response, next: NextFunction) {
+    try {
+    const matchData = req.body;
+    const newMatch = await this.service.includeMatch(matchData);
   
-    return res.status(200).send( teamsData );
+    return res.status(201).send( newMatch );
     } catch (error) {
     next(error);
     }
