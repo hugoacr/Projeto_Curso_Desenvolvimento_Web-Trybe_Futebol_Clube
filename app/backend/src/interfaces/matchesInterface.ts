@@ -12,9 +12,11 @@ export interface IMatches {
 export interface IMatchesRepository {
   listMatches(): Promise<MatchesModel[]>,
   includeMatch(data: Omit<MatchesModel, 'id' | 'inProgress'>): Promise<MatchesModel>,
+  finishProgress(id: number): Promise<void>,
 }
 
 export interface IMatchesService {
   listMatches(): Promise<MatchesModel[]>,
   includeMatch(data: Omit<MatchesModel, 'id' | 'inProgress'>): Promise<MatchesModel>,
+  finishProgress(id: number): Promise<void>,
 }
