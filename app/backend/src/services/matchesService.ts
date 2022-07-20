@@ -8,8 +8,12 @@ class MatchesService implements IMatchesService {
 
   public async listMatches(): Promise<MatchesModel[]> {
     const teamsData = await this.model.listMatches();
-
     return teamsData as MatchesModel[];
+  }
+
+  public async includeMatch(data: Omit<MatchesModel, 'id' | 'inProgress'>): Promise<MatchesModel> {  
+    const newMatch = await this.model.includeMatch(data);
+    return newMatch as MatchesModel;
   }
 }
 
