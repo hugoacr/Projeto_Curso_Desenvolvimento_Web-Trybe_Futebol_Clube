@@ -13,10 +13,14 @@ export interface IMatchesRepository {
   listMatches(): Promise<MatchesModel[]>,
   includeMatch(data: Omit<MatchesModel, 'id' | 'inProgress'>): Promise<MatchesModel>,
   finishProgress(id: number): Promise<void>,
+  updateGoal(id: number, 
+    data: Omit<MatchesModel, 'id' | 'inProgress' | 'homeTeam' | 'awayTeam'>): Promise<MatchesModel>,
 }
 
 export interface IMatchesService {
   listMatches(): Promise<MatchesModel[]>,
   includeMatch(data: Omit<MatchesModel, 'id' | 'inProgress'>): Promise<MatchesModel>,
   finishProgress(id: number): Promise<void>,
+  updateGoal(id: number, 
+    data: Omit<MatchesModel, 'id' | 'inProgress' | 'homeTeam' | 'awayTeam'>): Promise<MatchesModel>,
 }
