@@ -87,4 +87,22 @@ describe('Crie um endpoint para o teams', () => {
 
   });
  
+  describe('Será validado se é possível alterar statur do inProgress pelo endpoint /matches/:id/finish', () => {
+    before( async () => sinon.stub(Matches, 'update')
+      .resolves());
+  
+    after(() => {
+      (Matches.update as sinon.SinonStub)
+        .restore();
+    })
+    it('Verifica se o status retornado foi 200 com a mensage: Finished', async () => {
+
+      const response = await chai.request(app).patch("/matches/1/finish");
+
+      expect(response).to.have.status(200);
+      expect(response.body.message).to.be.eqls('Finished');
+    });
+
+  });
+
 });
