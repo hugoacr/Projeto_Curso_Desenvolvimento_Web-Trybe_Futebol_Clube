@@ -15,6 +15,10 @@ class MatchesService implements IMatchesService {
     const newMatch = await this.model.includeMatch(data);
     return newMatch as MatchesModel;
   }
+
+  public async finishProgress(id: number): Promise<void> {
+    await this.model.finishProgress(Number(id)); 
+  }
 }
 
 export default MatchesService;
