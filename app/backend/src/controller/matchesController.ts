@@ -26,6 +26,17 @@ class MatchesController {
     next(error);
     }
   }
+
+  async FinishProgress(req: Request, res: Response, next: NextFunction) {
+    try {
+    const { id } = req.params; 
+    await this.service.finishProgress(Number(id));
+    return res.status(200).send({ message: 'Finished' });
+    } catch (error) {
+    next(error);
+    }
+  }
+
 }
   
 export default MatchesController;
