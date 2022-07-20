@@ -13,6 +13,15 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
+const responseNewMatch = {
+  "id": 1,
+  "homeTeam": 16,
+  "homeTeamGoals": 2,
+  "awayTeam": 8,
+  "awayTeamGoals": 2,
+  "inProgress": true,
+}
+
 const matchesTest = [
     {
       "id": 1,
@@ -87,7 +96,32 @@ describe('Crie um endpoint para o teams', () => {
 
   });
  
-  describe('Será validado se é possível alterar statur do inProgress pelo endpoint /matches/:id/finish', () => {
+  describe('Crie novos matches no banco', () => {
+
+    describe('Será validado se é possível inserir novos matches', () => {
+      before( async () => sinon.stub(Matches, 'create')
+        .resolves(responseNewMatch as unknown as Matches));
+    
+      after(() => {
+        (Matches.create as sinon.SinonStub)
+          .restore();
+      })
+      it('Retorna status 201 e novo match incluido', async () => {
+  
+        const response = await chai.request(app).post("/matches").send({
+          "homeTeam": 16,
+          "awayTeam": 8,
+          "homeTeamGoals": 2,
+          "awayTeamGoals": 2
+        });
+  
+        expect(response).to.have.status(201);
+        expect(response.body).to.be.eqls(responseNewMatch);
+      });
+  
+    });
+
+  describe('Será validado se é possível alterar status do inProgress pelo endpoint /matches/:id/finish', () => {
     before( async () => sinon.stub(Matches, 'update')
       .resolves());
   
@@ -104,5 +138,6 @@ describe('Crie um endpoint para o teams', () => {
     });
 
   });
+});
 
 });
