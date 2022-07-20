@@ -21,4 +21,8 @@ const matchesFactory = () => {
     matchesFactory().IncludeMatch(req, res, next);
   });
 
+  matchesRouter.patch('/:id/finish', (req, res, next) =>{
+    matchesFactory().FinishProgress(req, res, next);
+  });
+
 export default matchesRouter;
