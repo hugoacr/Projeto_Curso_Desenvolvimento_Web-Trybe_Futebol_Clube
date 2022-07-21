@@ -4,7 +4,7 @@ import db from '.';
 
 class teams extends Model {
 public  id?: number;
-public  team_name: string;
+public  teamName: string;
 }
 
 teams.init({
