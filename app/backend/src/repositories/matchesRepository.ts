@@ -1,4 +1,3 @@
-import teams from '../database/models/teamsModel';
 import MatchesModel from '../database/models/matchesModel';
 import TeamsModel from '../database/models/teamsModel';
 import { IMatchesRepository } from '../interfaces/matchesInterface';
@@ -12,8 +11,8 @@ class MatchesRepository implements IMatchesRepository {
 
   async listMatches(): Promise<MatchesModel[]> {
     const matchesData = await this.model.findAll({ include: [
-      { model: teams, as: 'teamHome' },
-      { model: teams, as: 'teamAway' },
+      { model: TeamsModel, as: 'teamHome' },
+      { model: TeamsModel, as: 'teamAway' },
     ] });
     
     return matchesData as MatchesModel[];
