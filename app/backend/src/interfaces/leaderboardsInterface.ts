@@ -14,9 +14,9 @@ export interface ILeaderboards {
 }
 
 export interface ILeaderboardsService {
-    getLeaderboards(): Promise<LeaderboardsRepository[]>
+    getLeaderboards(view: string): Promise<LeaderboardsRepository[]>
 }
 
 export interface ILeaderboardsRepository {
-    buildLeaderboard(): Promise<ILeaderboards[]>
+    buildLeaderboard(view: string): Promise<ILeaderboards[]>
 }
