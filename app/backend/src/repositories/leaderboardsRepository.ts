@@ -9,11 +9,11 @@ class LeaderboardsRepository implements ILeaderboardsRepository {
     private teamModel = TeamsModel
     ) {}
     
-  async buildLeaderboard(): Promise<ILeaderboards[]> {
+  async buildLeaderboard(view: string): Promise<ILeaderboards[]> {
     const matchesData = await this.model.findAll();
     const teamsData = await this.teamModel.findAll();
 
-    const Leaderboard = buildLeaderboard(teamsData, matchesData, 'home')
+    const Leaderboard = buildLeaderboard(teamsData, matchesData, view)
     return Leaderboard as ILeaderboards[];
   }
 
