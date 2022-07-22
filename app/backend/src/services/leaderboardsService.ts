@@ -6,8 +6,8 @@ class LeaderboardsService implements ILeaderboardsService {
     this.model = model;
   }
 
-  public async getLeaderboards(): Promise<LeaderboardsRepository[]> {
-    const leaderboardsData = await this.model.buildLeaderboard();
+  public async getLeaderboards(view: string): Promise<LeaderboardsRepository[]> {
+    const leaderboardsData = await this.model.buildLeaderboard(view);
     return leaderboardsData as unknown as LeaderboardsRepository[];
   }
 
