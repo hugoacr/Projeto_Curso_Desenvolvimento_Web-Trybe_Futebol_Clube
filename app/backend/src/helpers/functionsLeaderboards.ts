@@ -2,18 +2,11 @@ import MatchesModel  from '../database/models/matchesModel'
 import TeamsModel  from '../database/models/teamsModel'
 import { ILeaderboards } from '../interfaces/leaderboardsInterface'
 
-function getIdList(teams:TeamsModel[]): number[] {
-  const listIdTeams =  teams.map((e) => {
-    let result = e.id;
-    return result;
-  })
-  return listIdTeams as number[];
-};
-
-function getTotalGames(id:number, matches:MatchesModel[]): number {
+function getTotalGames(homeId:number, awayId:number, matches:MatchesModel[]): number {
   const countGames =  matches.map((e) => {
     let result = 0;
-    if((e.homeTeam === id || e.awayTeam === id) && !e.inProgress) {
+
+    if((e.homeTeam === homeId || e.awayTeam === awayId) && !e.inProgress) {
       result = 1;
     }
     return result;
@@ -25,15 +18,15 @@ function getTotalGames(id:number, matches:MatchesModel[]): number {
   return total
 };
   
-function getTotalVictories(id:number, matches:MatchesModel[]): number {
+function getTotalVictories(homeId:number, awayId:number, matches:MatchesModel[]): number {
   const count =  matches.map((e) => {
     let result = 0;
-    if((e.homeTeam === id || e.awayTeam === id) && !e.inProgress) { 
-      if (e.homeTeam === id && e.homeTeamGoals > e.awayTeamGoals) {
+    if((e.homeTeam === homeId || e.awayTeam === awayId) && !e.inProgress) { 
+      if (e.homeTeam === homeId && e.homeTeamGoals > e.awayTeamGoals) {
         result = 1
       }
   
-      if (e.awayTeam === id && e.awayTeamGoals > e.homeTeamGoals) {
+      if (e.awayTeam === awayId && e.awayTeamGoals > e.homeTeamGoals) {
         result = 1
       }
   
@@ -47,11 +40,11 @@ function getTotalVictories(id:number, matches:MatchesModel[]): number {
   return total
 };
   
-function getTotalDraws(id:number, matches:MatchesModel[]): number {
+function getTotalDraws(homeId:number, awayId:number, matches:MatchesModel[]): number {
   const count =  matches.map((e) => {
     let result = 0;
-    if((e.homeTeam === id || e.awayTeam === id) && !e.inProgress) {
-       if ((e.homeTeam === id || e.awayTeam === id) && e.homeTeamGoals === e.awayTeamGoals) {
+    if((e.homeTeam === homeId || e.awayTeam === awayId) && !e.inProgress) {
+       if ((e.homeTeam === homeId || e.awayTeam === awayId) && e.homeTeamGoals === e.awayTeamGoals) {
          result = 1
        }
     }
@@ -64,16 +57,16 @@ function getTotalDraws(id:number, matches:MatchesModel[]): number {
   return total
 };
   
-function getGoalsFavor(id:number, matches:MatchesModel[]): number {
+function getGoalsFavor(homeId:number, awayId:number, matches:MatchesModel[]): number {
   const count =  matches.map((e) => {
     let result = 0;
-    if((e.homeTeam === id || e.awayTeam === id) && !e.inProgress) {
+    if((e.homeTeam === homeId || e.awayTeam === awayId) && !e.inProgress) {
       
-      if (e.homeTeam === id) {
+      if (e.homeTeam === homeId) {
         result = e.homeTeamGoals
       }
   
-      if (e.awayTeam === id) {
+      if (e.awayTeam === awayId) {
         result = e.awayTeamGoals
       }
   
@@ -87,16 +80,16 @@ function getGoalsFavor(id:number, matches:MatchesModel[]): number {
   return total
 };
   
-function getGoalsOwn(id:number, matches:MatchesModel[]): number {
+function getGoalsOwn(homeId:number, awayId:number, matches:MatchesModel[]): number {
   const count =  matches.map((e) => {
     let result = 0;
-    if((e.homeTeam === id || e.awayTeam === id) && !e.inProgress) {
+    if((e.homeTeam === homeId || e.awayTeam === awayId) && !e.inProgress) {
       
-      if (e.homeTeam === id) {
+      if (e.homeTeam === homeId) {
         result = e.awayTeamGoals
       }
   
-      if (e.awayTeam === id) {
+      if (e.awayTeam === awayId) {
         result = e.homeTeamGoals
       }
   
@@ -122,14 +115,28 @@ function sortLeaderboard(leaderboard: ILeaderboards[]): ILeaderboards[] {
   // return result;
 }
 
-export function buildLeaderboard(teams:TeamsModel[], matches:MatchesModel[]): ILeaderboards[] {
+export function buildLeaderboard(teams:TeamsModel[], matches:MatchesModel[], view:string ): ILeaderboards[] {
   const mapingLeaderboard = teams.map((list) => {
+    
+    let homeId = 0;
+    let awayId = 0;
 
-    const TotalVictories = getTotalVictories(Number(list.id), matches);
-    const TotalDraws = getTotalDraws(Number(list.id), matches);
-    const TotalGames = getTotalGames(Number(list.id), matches);
-    const GoalsFavor = getGoalsFavor(Number(list.id), matches);
-    const GoalsOwn = getGoalsOwn(Number(list.id), matches);
+    if (view === 'home') {
+      homeId = Number(list.id);
+      awayId = 0;
+    } else if (view === 'away') {
+      homeId = 0;
+      awayId = Number(list.id);
+    } else {
+      homeId = Number(list.id);
+      awayId = Number(list.id);
+    }
+    
+    const TotalVictories = getTotalVictories(homeId, awayId, matches);
+    const TotalDraws = getTotalDraws(homeId, awayId, matches);
+    const TotalGames = getTotalGames(homeId, awayId, matches);
+    const GoalsFavor = getGoalsFavor(homeId, awayId, matches);
+    const GoalsOwn = getGoalsOwn(homeId, awayId, matches);
 
     const builder = {
       name: list.teamName,
