@@ -8,12 +8,13 @@ class LeaderboardsController {
   
   async GetLeaderboards(req: Request, res: Response, next: NextFunction) {
     try {
-    const leaderboardsData = await this.service.getLeaderboards();
+      const view = req.url;
+    const leaderboardsData = await this.service.getLeaderboards(view.slice(1));
     return res.status(200).send( leaderboardsData );
     } catch (error) {
     next(error);
-    }
-  }
+    }  
+  } 
 }
   
 export default LeaderboardsController;
