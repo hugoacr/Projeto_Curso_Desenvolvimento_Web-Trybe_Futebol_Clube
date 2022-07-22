@@ -13,7 +13,7 @@ class LeaderboardsRepository implements ILeaderboardsRepository {
     const matchesData = await this.model.findAll();
     const teamsData = await this.teamModel.findAll();
 
-    const Leaderboard = buildLeaderboard(teamsData, matchesData)
+    const Leaderboard = buildLeaderboard(teamsData, matchesData, 'home')
     return Leaderboard as ILeaderboards[];
   }
 
