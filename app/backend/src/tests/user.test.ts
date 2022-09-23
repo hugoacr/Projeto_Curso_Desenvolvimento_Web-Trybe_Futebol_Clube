@@ -21,8 +21,6 @@ const userTest = {
   password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'
 }
 
-// Desenvolva o endpoint /login no back-end de maneira que ele permita
-// o acesso com dados válidos no front-end
 describe('Crie um endpoint para o login', () => {
 
   describe('Será validado que foi repassado', () => {

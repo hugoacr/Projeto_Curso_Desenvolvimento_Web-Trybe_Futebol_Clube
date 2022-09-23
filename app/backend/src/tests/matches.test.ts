@@ -73,8 +73,6 @@ const matchesTest = [
     },
 ]
 
-// Desenvolva o endpoint /login no back-end de maneira que ele permita
-// o acesso com dados válidos no front-end
 describe('Crie um endpoint para o teams', () => {
 
   describe('Será validado se o retorno do /matches', () => {
