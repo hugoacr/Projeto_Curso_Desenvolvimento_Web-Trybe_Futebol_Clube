@@ -1,8 +1,8 @@
+import { compareSync } from 'bcryptjs';
 import newToken from '../helpers/newToken';
 import HandleError from '../helpers/handleError';
 import UsersModel from '../database/models/userModel';
 import { IUserRepository, IUserService } from '../interfaces/userInterface';
-import { compareSync } from 'bcryptjs';
 
 class UserService implements IUserService {
   constructor(private model: IUserRepository) {

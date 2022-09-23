@@ -11,19 +11,21 @@ class MatchesService implements IMatchesService {
     return teamsData as MatchesModel[];
   }
 
-  public async includeMatch(data: Omit<MatchesModel, 'id' | 'inProgress'>): Promise<MatchesModel> {  
+  public async includeMatch(data: Omit<MatchesModel, 'id' | 'inProgress'>): Promise<MatchesModel> {
     const newMatch = await this.model.includeMatch(data);
     return newMatch as MatchesModel;
   }
 
   public async finishProgress(id: number): Promise<void> {
-    await this.model.finishProgress(Number(id)); 
+    await this.model.finishProgress(Number(id));
   }
 
-  public async updateGoal(id: number,
-    data: Omit<MatchesModel, 'id' | 'inProgress' | 'homeTeam' | 'awayTeam'>): Promise<MatchesModel> {
+  public async updateGoal(
+    id: number,
+    data: Omit<MatchesModel, 'id' | 'inProgress' | 'homeTeam' | 'awayTeam'>,
+  ): Promise<MatchesModel> {
     const updateGoalMatch = await this.model.updateGoal(id, data);
-    return updateGoalMatch  
+    return updateGoalMatch;
   }
 }
 

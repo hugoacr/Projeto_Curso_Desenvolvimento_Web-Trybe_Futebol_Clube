@@ -10,7 +10,6 @@ class LeaderboardsService implements ILeaderboardsService {
     const leaderboardsData = await this.model.buildLeaderboard(view);
     return leaderboardsData as unknown as LeaderboardsRepository[];
   }
-
 }
 
 export default LeaderboardsService;
