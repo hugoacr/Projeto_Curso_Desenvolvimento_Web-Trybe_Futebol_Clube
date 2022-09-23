@@ -6,19 +6,19 @@ import TeamsService from '../services/teamsService';
 const teamsRouter = Router();
 
 const teamsFactory = () => {
-    const model = new TeamsRepository();
-    const service = new TeamsService(model);
-    const controller = new TeamsController(service);
-  
-    return controller;
-  };
+  const model = new TeamsRepository();
+  const service = new TeamsService(model);
+  const controller = new TeamsController(service);
 
-  teamsRouter.get('/:id', (req, res, next) =>{
-    teamsFactory().ListOneTeam(req, res, next);
-  });
+  return controller;
+};
 
-  teamsRouter.get('/', (req, res, next) =>{
-    teamsFactory().ListTeams(req, res, next);
-  });
+teamsRouter.get('/:id', (req, res, next) => {
+  teamsFactory().ListOneTeam(req, res, next);
+});
+
+teamsRouter.get('/', (req, res, next) => {
+  teamsFactory().ListTeams(req, res, next);
+});
 
 export default teamsRouter;

@@ -6,19 +6,19 @@ import LeaderboardsService from '../services/leaderboardsService';
 const leaderboardRouter = Router();
 
 const leaderboardFactory = () => {
-    const model = new LeaderboardsRepository();
-    const service = new LeaderboardsService(model);
-    const controller = new LeaderboardController(service);
-  
-    return controller;
-  };
+  const model = new LeaderboardsRepository();
+  const service = new LeaderboardsService(model);
+  const controller = new LeaderboardController(service);
 
-  leaderboardRouter.get('/home', (req, res, next) =>{
-    leaderboardFactory().GetLeaderboards(req, res, next);
-  });
+  return controller;
+};
 
-  leaderboardRouter.get('/away', (req, res, next) =>{
-    leaderboardFactory().GetLeaderboards(req, res, next);
-  });
+leaderboardRouter.get('/home', (req, res, next) => {
+  leaderboardFactory().GetLeaderboards(req, res, next);
+});
+
+leaderboardRouter.get('/away', (req, res, next) => {
+  leaderboardFactory().GetLeaderboards(req, res, next);
+});
 
 export default leaderboardRouter;
