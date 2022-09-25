@@ -1,10 +1,9 @@
 import { Model, STRING, INTEGER } from 'sequelize';
 import db from '.';
 
-
 class teams extends Model {
-public  id?: number;
-public  teamName: string;
+  public id?: number;
+  public teamName: string;
 }
 
 teams.init({

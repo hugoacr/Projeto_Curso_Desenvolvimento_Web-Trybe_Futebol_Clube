@@ -6,15 +6,15 @@ import HandleError from '../helpers/handleError';
 class MatchesRepository implements IMatchesRepository {
   constructor(
     private model = MatchesModel,
-    private teamModel = TeamsModel
-    ) {}
+    private teamModel = TeamsModel,
+  ) {}
 
   async listMatches(): Promise<MatchesModel[]> {
     const matchesData = await this.model.findAll({ include: [
       { model: TeamsModel, as: 'teamHome' },
       { model: TeamsModel, as: 'teamAway' },
     ] });
-    
+
     return matchesData as MatchesModel[];
   }
 
@@ -24,9 +24,9 @@ class MatchesRepository implements IMatchesRepository {
     const awayTeam = await this.teamModel.findByPk(data.awayTeam);
 
     if (!homeTeam || !awayTeam) {
-      throw new HandleError(404, 'There is no team with such id!')
+      throw new HandleError(404, 'There is no team with such id!');
     }
-    
+
     return newMatch as MatchesModel;
   }
 
@@ -34,13 +34,14 @@ class MatchesRepository implements IMatchesRepository {
     await this.model.update({ inProgress: false }, { where: { id } });
   }
 
-  async updateGoal(id: number, 
-    data: Omit<MatchesModel, 'id' | 'inProgress' | 'homeTeam' | 'awayTeam'>): Promise<MatchesModel> {
+  async updateGoal(
+    id: number,
+    data: Omit<MatchesModel, 'id' | 'inProgress' | 'homeTeam' | 'awayTeam'>,
+  ): Promise<MatchesModel> {
     await this.model.update(data, { where: { id } });
     const updateGoalMatch = await this.model.findByPk(id);
-    return updateGoalMatch as MatchesModel
+    return updateGoalMatch as MatchesModel;
   }
-
 }
 
 export default MatchesRepository;

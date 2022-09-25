@@ -15,7 +15,6 @@ class TeamsRepository implements ITeamsRepository {
 
     return teamsData as TeamsModel;
   }
-
 }
 
 export default TeamsRepository;
