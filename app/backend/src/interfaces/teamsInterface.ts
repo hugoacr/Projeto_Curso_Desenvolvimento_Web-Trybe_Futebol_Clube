@@ -1,8 +1,8 @@
-import TeamsModel from "../database/models/teamsModel";
+import TeamsModel from '../database/models/teamsModel';
 
 export interface ITeams {
   id?: number;
-  team_name: string;
+  teamName: string;
 }
 
 export interface ITeamsRepository {
