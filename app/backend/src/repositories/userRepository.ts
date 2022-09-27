@@ -9,7 +9,6 @@ class UserRepository implements IUserRepository {
 
     return userData as UserModel;
   }
-
 }
 
 export default UserRepository;

@@ -1,4 +1,4 @@
-import UserModel from "../database/models/userModel";
+import UserModel from '../database/models/userModel';
 
 export interface IUser {
   id?: number;
