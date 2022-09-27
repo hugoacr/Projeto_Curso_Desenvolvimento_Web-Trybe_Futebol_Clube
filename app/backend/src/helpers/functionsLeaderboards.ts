@@ -1,107 +1,6 @@
-import MatchesModel  from '../database/models/matchesModel'
-import TeamsModel  from '../database/models/teamsModel'
-import { ILeaderboards } from '../interfaces/leaderboardsInterface'
-
-function getTotalGames(homeId:number, awayId:number, matches:MatchesModel[]): number {
-  const countGames =  matches.map((e) => {
-    let result = 0;
-
-    if((e.homeTeam === homeId || e.awayTeam === awayId) && !e.inProgress) {
-      result = 1;
-    }
-    return result;
-  })
-  
-  const total = countGames.reduce(function(soma,i) {
-    return soma += i;
-  })
-  return total
-};
-  
-function getTotalVictories(homeId:number, awayId:number, matches:MatchesModel[]): number {
-  const count =  matches.map((e) => {
-    let result = 0;
-    if((e.homeTeam === homeId || e.awayTeam === awayId) && !e.inProgress) { 
-      if (e.homeTeam === homeId && e.homeTeamGoals > e.awayTeamGoals) {
-        result = 1
-      }
-  
-      if (e.awayTeam === awayId && e.awayTeamGoals > e.homeTeamGoals) {
-        result = 1
-      }
-  
-    }
-    return result;
-  })
-  
-  const total = count.reduce(function(soma,i) {
-    return soma += i;
-  })
-  return total
-};
-  
-function getTotalDraws(homeId:number, awayId:number, matches:MatchesModel[]): number {
-  const count =  matches.map((e) => {
-    let result = 0;
-    if((e.homeTeam === homeId || e.awayTeam === awayId) && !e.inProgress) {
-       if ((e.homeTeam === homeId || e.awayTeam === awayId) && e.homeTeamGoals === e.awayTeamGoals) {
-         result = 1
-       }
-    }
-    return result;
-  })
-  
-  const total = count.reduce(function(soma,i) {
-    return soma += i;
-  })
-  return total
-};
-  
-function getGoalsFavor(homeId:number, awayId:number, matches:MatchesModel[]): number {
-  const count =  matches.map((e) => {
-    let result = 0;
-    if((e.homeTeam === homeId || e.awayTeam === awayId) && !e.inProgress) {
-      
-      if (e.homeTeam === homeId) {
-        result = e.homeTeamGoals
-      }
-  
-      if (e.awayTeam === awayId) {
-        result = e.awayTeamGoals
-      }
-  
-    }
-    return result;
-  })
-
-  const total = count.reduce(function(soma,i) {
-    return soma += i;
-  })
-  return total
-};
-  
-function getGoalsOwn(homeId:number, awayId:number, matches:MatchesModel[]): number {
-  const count =  matches.map((e) => {
-    let result = 0;
-    if((e.homeTeam === homeId || e.awayTeam === awayId) && !e.inProgress) {
-      
-      if (e.homeTeam === homeId) {
-        result = e.awayTeamGoals
-      }
-  
-      if (e.awayTeam === awayId) {
-        result = e.homeTeamGoals
-      }
-  
-    }
-    return result;
-  })
-
-  const total = count.reduce(function(soma,i) {
-    return soma += i;
-  })
-  return total
-};
+import MatchesModel from '../database/models/matchesModel';
+import TeamsModel from '../database/models/teamsModel';
+import { ILeaderboards } from '../interfaces/leaderboardsInterface';
 
 function sortLeaderboard(leaderboard: ILeaderboards[]): ILeaderboards[] {
   return leaderboard.sort((a: ILeaderboards, b: ILeaderboards): number => {
@@ -112,49 +11,170 @@ function sortLeaderboard(leaderboard: ILeaderboards[]): ILeaderboards[] {
     if (result === 0) result = b.goalsOwn - a.goalsOwn;
     return result;
   });
-  // return result;
 }
 
-export function buildLeaderboard(teams:TeamsModel[], matches:MatchesModel[], view:string ): ILeaderboards[] {
+function getTotalGames(homeId:number, awayId:number, matches:MatchesModel[]): number {
+  const countGames = matches.map((e) => {
+    let result = 0;
+
+    if ((e.homeTeam === homeId || e.awayTeam === awayId) && !e.inProgress) {
+      result = 1;
+    }
+    return result;
+  });
+
+  const total = countGames.reduce((soma, i) => soma + i);
+  return total;
+}
+
+function getTotalVictories(homeId:number, awayId:number, matches:MatchesModel[]): number {
+  const count = matches.map((e) => {
+    let result = 0;
+    if ((e.homeTeam === homeId || e.awayTeam === awayId) && !e.inProgress) {
+      if (e.homeTeam === homeId && e.homeTeamGoals > e.awayTeamGoals) {
+        result = 1;
+      }
+
+      if (e.awayTeam === awayId && e.awayTeamGoals > e.homeTeamGoals) {
+        result = 1;
+      }
+    }
+    return result;
+  });
+
+  const total = count.reduce((soma, i) => soma + i);
+  return total;
+}
+
+function getTotalDraws(homeId:number, awayId:number, matches:MatchesModel[]): number {
+  const count = matches.map((e) => {
+    let result = 0;
+    if ((e.homeTeam === homeId || e.awayTeam === awayId) && !e.inProgress) {
+      result = (e.homeTeamGoals === e.awayTeamGoals) ? 1 : 0;
+    }
+    return result;
+  });
+
+  const total = count.reduce((soma, i) => soma + i);
+  return total;
+}
+
+function getGoalsFavor(homeId:number, awayId:number, matches:MatchesModel[]): number {
+  const count = matches.map((e) => {
+    let result = 0;
+    if ((e.homeTeam === homeId || e.awayTeam === awayId) && !e.inProgress) {
+      if (e.homeTeam === homeId) {
+        result = e.homeTeamGoals;
+      }
+
+      if (e.awayTeam === awayId) {
+        result = e.awayTeamGoals;
+      }
+    }
+    return result;
+  });
+
+  const total = count.reduce((soma, i) => soma + i);
+  return total;
+}
+
+function getGoalsOwn(homeId:number, awayId:number, matches:MatchesModel[]): number {
+  const count = matches.map((e) => {
+    let result = 0;
+    if ((e.homeTeam === homeId || e.awayTeam === awayId) && !e.inProgress) {
+      if (e.homeTeam === homeId) {
+        result = e.awayTeamGoals;
+      }
+
+      if (e.awayTeam === awayId) {
+        result = e.homeTeamGoals;
+      }
+    }
+    return result;
+  });
+
+  const total = count.reduce((soma, i) => soma + i);
+  return total;
+}
+
+function builder(
+  teamName: string,
+  data: Omit<ILeaderboards, 'name' | 'totalPoints' | 'totalLosses' | 'goalsBalance' | 'efficiency'>,
+) {
+  const newBuilder = {
+    name: teamName,
+    totalPoints: (data.totalVictories * 3) + data.totalDraws,
+    totalGames: data.totalGames,
+    totalVictories: data.totalVictories,
+    totalDraws: data.totalDraws,
+    totalLosses: data.totalGames - (data.totalVictories + data.totalDraws),
+    goalsFavor: data.goalsFavor,
+    goalsOwn: data.goalsOwn,
+    goalsBalance: data.goalsFavor - data.goalsOwn,
+    efficiency:
+    Number(((((data.totalVictories * 3) + data.totalDraws) / (data.totalGames * 3)) * 100)
+      .toFixed(2)),
+  };
+  return newBuilder;
+}
+
+function dataLeaderboardByView(
+  teams:TeamsModel[],
+  matches:MatchesModel[],
+  view:string,
+): ILeaderboards[] {
   const mapingLeaderboard = teams.map((list) => {
-    
-    let homeId = 0;
-    let awayId = 0;
+    const homeId = (view === 'home') ? Number(list.id) : 0;
+    const awayId = (view === 'away') ? Number(list.id) : 0;
 
-    if (view === 'home') {
-      homeId = Number(list.id);
-      awayId = 0;
-    } else if (view === 'away') {
-      homeId = 0;
-      awayId = Number(list.id);
-    } else {
-      homeId = Number(list.id);
-      awayId = Number(list.id);
-    }
-    
-    const TotalVictories = getTotalVictories(homeId, awayId, matches);
-    const TotalDraws = getTotalDraws(homeId, awayId, matches);
-    const TotalGames = getTotalGames(homeId, awayId, matches);
-    const GoalsFavor = getGoalsFavor(homeId, awayId, matches);
-    const GoalsOwn = getGoalsOwn(homeId, awayId, matches);
+    const totalVictories = getTotalVictories(homeId, awayId, matches);
+    const totalDraws = getTotalDraws(homeId, awayId, matches);
+    const totalGames = getTotalGames(homeId, awayId, matches);
+    const goalsFavor = getGoalsFavor(homeId, awayId, matches);
+    const goalsOwn = getGoalsOwn(homeId, awayId, matches);
+    const dataBuilder = { totalVictories, totalDraws, totalGames, goalsFavor, goalsOwn };
+    return builder(list.teamName, dataBuilder);
+  });
 
-    const builder = {
-      name: list.teamName,
-      totalPoints: (TotalVictories * 3) + TotalDraws,
-      totalGames: TotalGames,
-      totalVictories: TotalVictories,
-      totalDraws: TotalDraws,
-      totalLosses: TotalGames - (TotalVictories + TotalDraws),
-      goalsFavor: GoalsFavor,
-      goalsOwn: GoalsOwn,
-      goalsBalance: GoalsFavor - GoalsOwn,
-      efficiency: Number(((((TotalVictories * 3) + TotalDraws)/(TotalGames * 3)) * 100).toFixed(2)),
-    }
-    return builder
-  })
-  
-  const Leaderboard = sortLeaderboard(mapingLeaderboard)
-  
-  return Leaderboard
+  return mapingLeaderboard;
+}
 
-};
+function dataLeaderboardGeneral(
+  awayList: ILeaderboards[],
+  homeList: ILeaderboards[],
+): ILeaderboards[] {
+  const mapingLeaderboard = homeList.map((list: ILeaderboards) => {
+    const home = list;
+    const [away] = awayList.filter((e: ILeaderboards) => e.name === home.name);
+    const totalVictories = Number(home.totalVictories) + Number(away.totalVictories);
+    const totalDraws = Number(home.totalDraws) + Number(away.totalDraws);
+    const totalGames = Number(home.totalGames) + Number(away.totalGames);
+    const goalsFavor = Number(home.goalsFavor) + Number(away.goalsFavor);
+    const goalsOwn = Number(home.goalsOwn) + Number(away.goalsOwn);
+    const dataBuilder = { totalVictories, totalDraws, totalGames, goalsFavor, goalsOwn };
+    return builder(home.name, dataBuilder);
+  });
+
+  return mapingLeaderboard;
+}
+
+function buildLeaderboard(
+  teams:TeamsModel[],
+  matches:MatchesModel[],
+  view:string,
+): ILeaderboards[] {
+  let Leaderboard: ILeaderboards[] = [];
+  if (view === 'home' || view === 'away') {
+    Leaderboard = sortLeaderboard(dataLeaderboardByView(teams, matches, view));
+  } else {
+    Leaderboard = sortLeaderboard(
+      dataLeaderboardGeneral(
+        dataLeaderboardByView(teams, matches, 'away'),
+        dataLeaderboardByView(teams, matches, 'home'),
+      ),
+    );
+  }
+  return Leaderboard;
+}
+
+export default buildLeaderboard;

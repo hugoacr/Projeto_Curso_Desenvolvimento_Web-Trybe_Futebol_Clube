@@ -21,4 +21,8 @@ leaderboardRouter.get('/away', (req, res, next) => {
   leaderboardFactory().GetLeaderboards(req, res, next);
 });
 
+leaderboardRouter.get('/', (req, res, next) => {
+  leaderboardFactory().GetLeaderboards(req, res, next);
+});
+
 export default leaderboardRouter;
