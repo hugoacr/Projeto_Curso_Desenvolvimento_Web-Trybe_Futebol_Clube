@@ -1,14 +1,14 @@
 import LeaderboardsRepository from '../repositories/leaderboardsRepository';
-import { ILeaderboardsService } from '../interfaces/leaderboardsInterface';
+import { ILeaderboards, ILeaderboardsService } from '../interfaces/leaderboardsInterface';
 
 class LeaderboardsService implements ILeaderboardsService {
   constructor(private model: LeaderboardsRepository) {
     this.model = model;
   }
 
-  public async getLeaderboards(view: string): Promise<LeaderboardsRepository[]> {
+  public async getLeaderboards(view: string): Promise<ILeaderboards[]> {
     const leaderboardsData = await this.model.buildLeaderboard(view);
-    return leaderboardsData as unknown as LeaderboardsRepository[];
+    return leaderboardsData as ILeaderboards[];
   }
 }
 
