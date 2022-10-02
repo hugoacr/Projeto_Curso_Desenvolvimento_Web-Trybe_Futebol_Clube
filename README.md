@@ -921,7 +921,8 @@ O desenvolvimento desse projeto foi dividido em 4 seções principais:
   }
   ]
 ```
-
+</details> 
+	
   - Após acrescentar a partida Corinthians 2 X 1 Internacional e fazer a requisição ao endpoint `/leaderboard/away`, serão retornados os campos e valores corretos.
 <details>  
 <summary><strong> Retorno esperado: </strong></summary> <br/>
