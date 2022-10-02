@@ -151,8 +151,8 @@ O desenvolvimento desse projeto foi dividido em 4 seções principais:
   - O corpo da requisição terá o seguinte formato:
   ```json
   {
-    "homeTeam": 16, // O valor deve ser o id do time
-    "awayTeam": 8, // O valor deve ser o id do time
+    "homeTeam": 16, // O valor é o id do time
+    "awayTeam": 8, // O valor é o id do time
     "homeTeamGoals": 2,
     "awayTeamGoals": 2
   }
